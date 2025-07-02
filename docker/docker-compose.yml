@@ -10,9 +10,6 @@ services:
     depends_on:
       monkeytype-backend:
         condition: service_healthy
-    env_file:
-      - path: ./stack.env
-        required: true
     environment:
       - FIREBASE_APIKEY=${FIREBASE_APIKEY:-}
       - FIREBASE_AUTHDOMAIN=${FIREBASE_AUTHDOMAIN:-}
@@ -20,8 +17,9 @@ services:
       - FIREBASE_STORAGEBUCKET=${FIREBASE_STORAGEBUCKET:-}
       - FIREBASE_MESSAGINGSENDERID=${FIREBASE_MESSAGINGSENDERID:-}
       - FIREBASE_APPID=${FIREBASE_APPID:-}
-      - MONKEYTYPE_BACKENDURL=${MONKEYTYPE_BACKENDURL}
+      - MONKEYTYPE_BACKENDURL=https://back.type.beruna.io
       - RECAPTCHA_SITE_KEY=${RECAPTCHA_SITE_KEY:-}
+      - HTTP_PORT=8060
 
   monkeytype-backend:
     container_name: monkeytype-backend
@@ -33,7 +31,7 @@ services:
       - DB_NAME=monkeytype
       - DB_URI=mongodb://monkeytype-mongodb:27017
       - REDIS_URI=redis://monkeytype-redis:6379
-      - FRONTEND_URL=${MONKEYTYPE_FRONTENDURL}
+      - FRONTEND_URL=https://type.beruna.io
       - RECAPTCHA_SECRET=${RECAPTCHA_SECRET:-}
     volumes:
       #uncomment to enable the account system, check the SELF_HOSTING.md file
